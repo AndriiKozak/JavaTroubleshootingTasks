@@ -10,6 +10,7 @@ package javatroubleshootingtask.deadlocks;
  * @author Andrii_Kozak1
  */
 public class Lock1then2 implements Runnable {
+
     private final Object first;
     private final Object second;
     private final String name;
@@ -19,21 +20,22 @@ public class Lock1then2 implements Runnable {
         this.second = second;
         this.name = name;
     }
-    
-    
 
     @Override
     public void run() {
-        synchronized(first){            
+        synchronized (first) {
             try {
-                System.out.println(name+ " locked "+ first);
+                System.out.println(name + " locked " + first);
                 Thread.sleep(1000);
-                System.out.println(name +"trying to lock "+ second);
-                synchronized(second){System.out.println(name +"locked "+ second);}
-                System.out.println(name +"released" + second);
-            } catch (InterruptedException ex) {}
+                System.out.println(name + "trying to lock " + second);
+                synchronized (second) {
+                    System.out.println(name + "locked " + second);
+                }
+                System.out.println(name + "released" + second);
+            } catch (InterruptedException ex) {
+            }
         }
-        System.out.println(name +"released" + first);
+        System.out.println(name + "released" + first);
     }
-    
+
 }
