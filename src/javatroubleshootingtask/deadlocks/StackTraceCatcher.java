@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardOpenOption.CREATE;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,9 +35,9 @@ public class StackTraceCatcher implements Runnable {
 
     @Override
     public void run() {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, CREATE)) {
+        try {
             Thread.sleep(delay);
-            writer.write(stackTrace());
+            Files.write(path, stackTrace(), CREATE);
             System.out.println("catched");
 
         } catch (IOException ex) {
@@ -45,11 +47,10 @@ public class StackTraceCatcher implements Runnable {
         }
     }
 
-    private String stackTrace() {
+    private List<String> stackTrace() {
         return Arrays.stream(
                 ManagementFactory.getThreadMXBean().dumpAllThreads(true, true))
-                .map(ThreadInfo::toString)
-                .collect(Collectors.joining(System.lineSeparator(), System.lineSeparator(), System.lineSeparator()));
+                .map(ThreadInfo::toString).collect(Collectors.toList());
     }
 
 }
