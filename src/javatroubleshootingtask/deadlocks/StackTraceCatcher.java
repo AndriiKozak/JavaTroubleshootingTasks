@@ -35,14 +35,9 @@ public class StackTraceCatcher implements Runnable {
     public void run() {
         try (BufferedWriter writer = Files.newBufferedWriter(path, CREATE)) {
             Thread.sleep(delay);
-            {
-                String result = stackTrace2();
+            writer.write(stackTrace());
+            System.out.println("catched");
 
-                {
-                    writer.write(result);
-                    System.out.println("catched");
-                }
-            }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         } catch (InterruptedException ex) {
@@ -50,23 +45,11 @@ public class StackTraceCatcher implements Runnable {
         }
     }
 
-    private String stackTrace2() {
+    private String stackTrace() {
         return Arrays.stream(
                 ManagementFactory.getThreadMXBean().dumpAllThreads(true, true))
                 .map(ThreadInfo::toString)
                 .collect(Collectors.joining(System.lineSeparator(), System.lineSeparator(), System.lineSeparator()));
     }
 
-    private String stackTrace1() {
-        return Thread.getAllStackTraces().entrySet().stream().flatMap(entity -> Stream.concat(logThread(entity.getKey()), logStackTrace(entity.getValue()))).collect(Collectors.joining(System.lineSeparator(), System.lineSeparator(), System.lineSeparator()));
-    }
-
-    private static Stream<String> logThread(Thread thread) {
-        return Stream.of(
-                Stream.of(thread.getId(), thread.getName(), thread.isDaemon(), thread.getPriority(), thread.getState()).map(Object::toString).collect(Collectors.joining(" ")));
-    }
-
-    private static Stream<String> logStackTrace(StackTraceElement[] array) {
-        return Arrays.stream(array).map(StackTraceElement::toString);
-    }
 }
