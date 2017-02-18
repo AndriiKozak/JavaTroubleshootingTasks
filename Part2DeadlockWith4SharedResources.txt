@@ -1,0 +1,62 @@
+
+"DestroyJavaVM" Id=15 RUNNABLE
+
+
+"Thread-4" Id=14 RUNNABLE
+	at sun.management.ThreadImpl.dumpThreads0(Native Method)
+	at sun.management.ThreadImpl.dumpAllThreads(ThreadImpl.java:454)
+	at javatroubleshootingtask.deadlocks.StackTraceCatcher.stackTrace2(StackTraceCatcher.java:56)
+	at javatroubleshootingtask.deadlocks.StackTraceCatcher.run(StackTraceCatcher.java:41)
+	at java.lang.Thread.run(Thread.java:745)
+
+
+"Thread-3" Id=13 BLOCKED on java.lang.String@161eef85 owned by "Thread-0" Id=10
+	at javatroubleshootingtask.deadlocks.Lock1then2.run(Lock1then2.java:32)
+	-  blocked on java.lang.String@161eef85
+	-  locked java.lang.String@531c7b82
+	at java.lang.Thread.run(Thread.java:745)
+
+
+"Thread-2" Id=12 BLOCKED on java.lang.String@531c7b82 owned by "Thread-3" Id=13
+	at javatroubleshootingtask.deadlocks.Lock1then2.run(Lock1then2.java:32)
+	-  blocked on java.lang.String@531c7b82
+	-  locked java.lang.String@6f041e34
+	at java.lang.Thread.run(Thread.java:745)
+
+
+"Thread-1" Id=11 BLOCKED on java.lang.String@6f041e34 owned by "Thread-2" Id=12
+	at javatroubleshootingtask.deadlocks.Lock1then2.run(Lock1then2.java:32)
+	-  blocked on java.lang.String@6f041e34
+	-  locked java.lang.String@27c2187f
+	at java.lang.Thread.run(Thread.java:745)
+
+
+"Thread-0" Id=10 BLOCKED on java.lang.String@27c2187f owned by "Thread-1" Id=11
+	at javatroubleshootingtask.deadlocks.Lock1then2.run(Lock1then2.java:32)
+	-  blocked on java.lang.String@27c2187f
+	-  locked java.lang.String@161eef85
+	at java.lang.Thread.run(Thread.java:745)
+
+
+"Attach Listener" Id=5 RUNNABLE
+
+
+"Signal Dispatcher" Id=4 RUNNABLE
+
+
+"Finalizer" Id=3 WAITING on java.lang.ref.ReferenceQueue$Lock@1732b76e
+	at java.lang.Object.wait(Native Method)
+	-  waiting on java.lang.ref.ReferenceQueue$Lock@1732b76e
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:164)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:209)
+
+
+"Reference Handler" Id=2 WAITING on java.lang.ref.Reference$Lock@763110ca
+	at java.lang.Object.wait(Native Method)
+	-  waiting on java.lang.ref.Reference$Lock@763110ca
+	at java.lang.Object.wait(Object.java:502)
+	at java.lang.ref.Reference.tryHandlePending(Reference.java:191)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:153)
+
+
